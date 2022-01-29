@@ -48,6 +48,10 @@ class Db:
         self.connection = sqlite3.connect(join(self.path, self.name))
         self.connection.row_factory = sqlite3.Row
         self.cursor = self.connection.cursor()
+        # SQLite has foreign key triggers turned off by default
+        self.cursor.execute(
+            "PRAGMA foreign_keys = ON"
+        )
         # Create tables if don't exist
         self.cursor.execute(
             "CREATE TABLE IF NOT EXISTS "
