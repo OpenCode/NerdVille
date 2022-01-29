@@ -139,7 +139,7 @@ class Map:
         if position_info.building:
             self._db.cursor.execute(
                 "DELETE FROM building WHERE id = :id",
-                {'id': position_info['building']["id"]}
+                {'id': position_info.building.id}
                 )
             response = 'ok'
         else:
