@@ -40,6 +40,16 @@ BUILDINGS = {
         "symbol": "[bold]O[/bold]",
         "emoji": ":castle:",
         },
+    'house': {
+        "name": "House",
+        "symbol": "[bold]X[/bold]",
+        "emoji": ":house:",
+        },
+    'hospital': {
+        "name": "Hospital",
+        "symbol": "[bold]H[/bold]",
+        "emoji": ":hospital:",
+        },
     "bridge": {
         "name": "Bridge",
         "symbol": "[bold brown]=[/bold brown]",

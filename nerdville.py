@@ -215,6 +215,12 @@ class NerdVille(App):
         # Build node sub-menus
         await menu.add(
             menu.root.id + 1,
+            f"{EMOJI['house']} House",
+            {"menu_function": "menu_build",
+             "menu_function_data": {'building': "buildings-house"}},
+            )
+        await menu.add(
+            menu.root.id + 1,
             f"{EMOJI['ear_of_rice']} Farm",
             {"menu_function": "menu_build",
              "menu_function_data": {'building': "buildings-farm"}},
@@ -230,6 +236,12 @@ class NerdVille(App):
             f"{EMOJI['beers']} Tavern",
             {"menu_function": "menu_build",
              "menu_function_data": {'building': "buildings-tavern"}},
+            )
+        await menu.add(
+            menu.root.id + 1,
+            f"{EMOJI['hospital']} Hospital",
+            {"menu_function": "menu_build",
+             "menu_function_data": {'building': "buildings-hospital"}},
             )
         await menu.add(
             menu.root.id + 1,
