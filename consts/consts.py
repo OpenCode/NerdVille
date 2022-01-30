@@ -53,7 +53,7 @@ BUILDINGS = {
         "emoji": ":ear_of_rice:",
         },
     "lumberjack": {
-        "name": "Lamberjack",
+        "name": "Lumberjack",
         "symbol": "[bold green]T[/bold green]",
         "emoji": ":deciduous_tree:",
         },

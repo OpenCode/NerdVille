@@ -18,7 +18,7 @@ Create your village in your console
 | **0**                                   | Castle     |
 | <span style="color:brown">**=**</span>  | Bridge     |
 | <span style="color:yellow">**#**</span> | Farm       |
-| <span style="color:green">**T**</span>  | Lamberjack |
+| <span style="color:green">**T**</span>  | Lumberjack |
 | **U**                                   | Tavern     |
 
 ### Environments
