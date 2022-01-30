@@ -20,7 +20,8 @@ class Title(Widget):
     time_speed = Reactive(1)
 
     def on_mount(self):
-        self.set_interval(1, self.update_info)
+        # A day every minute
+        self.set_interval(60, self.update_info)
 
     def update_info(self) -> None:
         hourglass = active_app.get().hourglass

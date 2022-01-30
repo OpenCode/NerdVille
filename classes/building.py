@@ -4,6 +4,18 @@
 from textual._context import active_app
 
 from classes.element import Element
+from classes.resource import Resource
+
+
+def get_all():
+    app = active_app
+    db = app.get().db
+    db.cursor.execute("SELECT id FROM building WHERE id > 0")
+    buildings = []
+    records = db.cursor.fetchall()
+    for record in records:
+        buildings.append(Building(record['id']))
+    return buildings
 
 
 class Building:
@@ -37,3 +49,9 @@ class Building:
             {'id': self.id, }
             )
         return self._db.cursor.fetchone()
+
+    def produce(self):
+        if self.element.production:
+            for resource_name in self.element.production.keys():
+                resource = Resource(resource_name)
+                resource.increment(self.element.production[resource_name])

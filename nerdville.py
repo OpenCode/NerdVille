@@ -21,6 +21,7 @@ from classes.map import Map
 from classes.king import King
 from classes.castle import Castle
 from classes.hourglass import Hourglass
+from classes.god import God
 
 
 class NerdVille(App):
@@ -206,11 +207,11 @@ class NerdVille(App):
         menu = TreeControl("Menu", {})
         await menu.add(
             menu.root.id,
-            f"Build", {},
+            f"{EMOJI['hammer_and_wrench']}  Build", {},
             )
         await menu.add(
             menu.root.id,
-            f"View", {},
+            f"{EMOJI['eyeglasses']}  View", {},
             )
         # Build node sub-menus
         await menu.add(
@@ -282,6 +283,7 @@ class NerdVille(App):
         self.king = King()
         self.hourglass = Hourglass()
         self.map = Map()
+        self.god = God()
 
         # Put the map in the ScrollView
         async def add_content():

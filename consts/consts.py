@@ -33,6 +33,10 @@ RESOURCES = {
         "amount": 0,
         "symbol": ":corn:",
         },
+    'wood': {
+        "amount": 0,
+        "symbol": ":deciduous_tree:",
+        },
     'health': {
         "amount": 0,
         "symbol": ":medical_symbol:",

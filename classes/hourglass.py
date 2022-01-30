@@ -46,6 +46,7 @@ class Hourglass:
 
     def step(self):
         self.value += HOURGLASS_STEP * self.speed
+        self._app.get().god.snap()
 
     def _hourglass_to_dates(self):
         '''

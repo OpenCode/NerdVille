@@ -58,29 +58,6 @@ class Db:
             f"('{key}', '{value}')")
         self.connection.commit()
 
-    # Resources values
-
-    def get_resource_amount(self, resource):
-        self.cursor.execute(
-            f'SELECT "amount" FROM "resource" WHERE resource = "{resource}"; ')
-        amount = self.cursor.fetchone()["amount"]
-        return amount
-
-    def init_resource_amount(self, resource, amount):
-        self.cursor.execute(
-            f"INSERT OR IGNORE INTO resource (resource, amount) VALUES "
-            f"('{resource}', '{amount}')")
-        self.connection.commit()
-
-    def set_resource_amount(self, resource, amount):
-        self.cursor.execute(
-            f"INSERT OR REPLACE INTO resource (resource, amount) VALUES "
-            f"('{resource}', '{amount}')")
-        self.connection.commit()
-
-    def increment_resource_amount(self, resource, amount):
-        pass
-
     def __init__(self, path, name='nerdville.db'):
         self.path = path
         self.name = name

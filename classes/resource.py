@@ -17,7 +17,7 @@ class Resource:
 
     resource = ''
     symbol = ''
-    amount = ''
+    _amount = 0
     _app = None
     _db = None
 
@@ -29,7 +29,7 @@ class Resource:
         self.resource = resource
         data = self.get_data()
         self.symbol = data['symbol']
-        self.amount = data['amount']
+        self._amount = data['amount']
 
     def get_data(self):
         self._db.cursor.execute(
@@ -38,3 +38,23 @@ class Resource:
             {'resource': self.resource, }
             )
         return self._db.cursor.fetchone()
+
+    @property
+    def amount(self):
+        return self._amount
+
+    @amount.setter
+    def amount(self, value):
+        self._db.cursor.execute(
+            "UPDATE resource SET amount = :amount WHERE "
+            "resource = :resource",
+            {'amount': value,
+            'resource': self.resource,
+            }
+        )
+        self._db.connection.commit()
+        self._amount = value
+
+    def increment(self, amount):
+        actual_amount = self.amount
+        self.amount = actual_amount + amount
