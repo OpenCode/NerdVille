@@ -143,6 +143,7 @@ class NerdVille(App):
             message = 'Unknow error for building'
         self.log_area.update(
             f'{message} in {self.ville_area.king_position}')
+        self.show_info()
 
     def menu_demolish(self, data=None) -> None:
         response = self.map.demolish()
@@ -156,11 +157,13 @@ class NerdVille(App):
             message = 'Unknow error for demolish'
         self.log_area.update(
             f'{message} in {self.ville_area.king_position}')
+        self.show_info()
 
     def menu_upgrade(self, data=None) -> None:
         message = 'Upgrade'
         self.log_area.update(
             f'{message} in {self.ville_area.king_position}')
+        self.show_info()
 
     def menu_switch_element_style(self, data={}):
         self.action_switch_element_style()
@@ -274,6 +277,8 @@ class NerdVille(App):
             await self.body.update(self.ville_area)
 
         await self.call_later(add_content)
+
+        self.show_info()
 
     async def handle_tree_click(self, message: TreeClick[dict]) -> None:
         data = message.node.data
