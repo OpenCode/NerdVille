@@ -8,6 +8,8 @@ from rich.panel import Panel
 
 from consts.consts import BUILD, VERSION
 
+from classes.resource import get_all
+
 
 class Title(Widget):
 
@@ -37,8 +39,15 @@ class Title(Widget):
             f"Day [bold]{self.actual_day}[/bold]",
             f"(x{self.time_speed})" if self.time_speed > 0 else "(:zzz:)",
             ]
+        resources = get_all()
+        resources_info = []
+        for resource_name in resources:
+            resource = resources[resource_name]
+            resources_info.append(
+                f"{resource.symbol} [bold]{resource.amount}[/bold]"
+                )
         return Panel(
-            ":bar_chart: [bold]0[/bold] | :money_bag: [bold]100[/bold]",
+            " | ".join(resources_info),
             title=f"NerdVille {VERSION}-b{BUILD}",
             subtitle=" ".join(time_info)
             )

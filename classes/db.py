@@ -8,7 +8,7 @@ from os.path import join
 
 from consts.consts import \
     VERSION, BUILD, \
-    ELEMENTS, \
+    ELEMENTS, RESOURCES, \
     ROWS_LIMIT, ROWS_NUMBER, \
     COLS_LIMIT, COLS_NUMBER
 
@@ -38,6 +38,8 @@ class Db:
         else:
             return loads(value)
 
+    # Game values
+
     def get_game_value(self, key):
         self.cursor.execute(
             f'SELECT "value" FROM "game" WHERE key = "{key}"; ')
@@ -55,6 +57,29 @@ class Db:
             f"INSERT OR REPLACE INTO game (key, value) VALUES "
             f"('{key}', '{value}')")
         self.connection.commit()
+
+    # Resources values
+
+    def get_resource_amount(self, resource):
+        self.cursor.execute(
+            f'SELECT "amount" FROM "resource" WHERE resource = "{resource}"; ')
+        amount = self.cursor.fetchone()["amount"]
+        return amount
+
+    def init_resource_amount(self, resource, amount):
+        self.cursor.execute(
+            f"INSERT OR IGNORE INTO resource (resource, amount) VALUES "
+            f"('{resource}', '{amount}')")
+        self.connection.commit()
+
+    def set_resource_amount(self, resource, amount):
+        self.cursor.execute(
+            f"INSERT OR REPLACE INTO resource (resource, amount) VALUES "
+            f"('{resource}', '{amount}')")
+        self.connection.commit()
+
+    def increment_resource_amount(self, resource, amount):
+        pass
 
     def __init__(self, path, name='nerdville.db'):
         self.path = path
@@ -108,6 +133,14 @@ class Db:
             "emoji TEXT"
             ")"
             )
+        self.cursor.execute(
+            "CREATE TABLE IF NOT EXISTS "
+            "resource ("
+            "resource TEXT NOT NULL UNIQUE, "
+            "amount INTEGER, "
+            "symbol TEXT NOT NULL UNIQUE"
+            ")"
+            )
         # Set Version information
         self.set_game_value("version", VERSION)
         self.set_game_value("build", BUILD)
@@ -125,6 +158,17 @@ class Db:
         self.init_game_value("hourglass_speed", "1")
         # Create graph configurations
         self.init_game_value("element_style", "ASCII")
+        # Create resources counter
+        for resource_name in RESOURCES:
+            resource = RESOURCES[resource_name]
+            self.cursor.execute(
+                "INSERT OR IGNORE INTO resource ("
+                "resource, amount, symbol"
+                ") VALUES ("
+                f"'{resource_name}', "
+                f"{resource['amount']}, "
+                f"'{resource['symbol']}' "
+                ")")
         # Create the buildings models data
         for element_type in ELEMENTS:
             elements = ELEMENTS[element_type]

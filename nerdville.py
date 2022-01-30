@@ -227,7 +227,7 @@ class NerdVille(App):
             )
         await menu.add(
             menu.root.id + 1,
-            f"{EMOJI['deciduous_tree']} Lumberjack",
+            f"{EMOJI['axe']} Lumberjack",
             {"menu_function": "menu_build",
              "menu_function_data": {'building': "buildings-lumberjack"}},
             )

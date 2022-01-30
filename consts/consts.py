@@ -20,6 +20,34 @@ CHARACTERS = {
 }
 
 
+RESOURCES = {
+    'population': {
+        "amount": 0,
+        "symbol": ":bar_chart:",
+        },
+    'gold': {
+        "amount": 100,
+        "symbol": ":money_bag:",
+        },
+    'hay': {
+        "amount": 0,
+        "symbol": ":corn:",
+        },
+    'health': {
+        "amount": 0,
+        "symbol": ":medical_symbol:",
+        },
+    'happiness': {
+        "amount": 0,
+        "symbol": ":smiley:",
+        },
+    'spirituality': {
+        "amount": 0,
+        "symbol": ":pray:",
+        },
+}
+
+
 ENVIRONMENTS = {
     "sea": {
         "name": "Sea",
@@ -68,7 +96,7 @@ BUILDINGS = {
     "lumberjack": {
         "name": "Lumberjack",
         "symbol": "[bold green]T[/bold green]",
-        "emoji": ":deciduous_tree:",
+        "emoji": ":axe:",
         "cost": {"gold": 30},
         "production": {"wood": 1},
         },
