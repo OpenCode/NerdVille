@@ -61,3 +61,7 @@ class Resource:
     def increment(self, amount):
         actual_amount = self.amount
         self.amount = actual_amount + amount
+
+    def decrement(self, amount):
+        actual_amount = self.amount
+        self.amount = actual_amount - amount

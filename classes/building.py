@@ -50,6 +50,38 @@ class Building:
             buildings.append(Building().get(record['id']))
         return buildings
 
+    def build(self, building, row, col):
+        element = Element().get(building)
+        insufficent_resources = []
+        for resource_name, cost in  element.cost.items():
+            resource = Resource().get(resource_name)
+            if resource.amount < cost:
+                insufficent_resources.append(resource_name)
+            else:
+                resource.decrement(cost)
+        if insufficent_resources:
+            self._app.get().log_area.update(
+                f"Insufficent resources: {', '.join(insufficent_resources)}")
+            return None
+        self._db.cursor.execute(
+            "INSERT OR REPLACE INTO building "
+            "(row, col, building) "
+            "VALUES "
+            "(:row, :col, :building)",
+            {"row": row, "col": col, "building": building}
+            )
+        building_id = self._db.cursor.lastrowid
+        self._db.cursor.execute(
+            "UPDATE position SET building_id = :last_id WHERE "
+            "row = :row AND col = :col",
+            {'last_id': building_id,
+            'row': row,
+            'col': col,
+            }
+        )
+        self._db.connection.commit()
+        return self.get(building_id)
+
     def produce(self):
         if self.element.production:
             for resource_name in self.element.production.keys():

@@ -136,15 +136,15 @@ class NerdVille(App):
     def menu_build(self, data) -> None:
         building = data['building']
         response = self.map.build(building=building)
+        message = ''
         if response['type'] == 'occupied_land':
             message = 'OPS! Land already occupied'
         elif response['type'] == 'new_building':
             message = 'Construction was successful'
-        else:
-            message = 'Unknow error for building'
-        self.log_area.update(
-            f'{message} in {self.ville_area.king_position}')
-        self.show_info()
+        if message:
+            self.log_area.update(
+                f'{message} in {self.ville_area.king_position}')
+            self.show_info()
 
     def menu_demolish(self, data=None) -> None:
         response = self.map.demolish()

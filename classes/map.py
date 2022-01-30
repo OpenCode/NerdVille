@@ -102,25 +102,10 @@ class Map:
         position_info = self.position(row, col)
         response = {'type': 'None', 'id': None}
         if not position_info.building:
-            self._db.cursor.execute(
-                "INSERT OR REPLACE INTO building "
-                "(row, col, building) "
-                "VALUES "
-                "(:row, :col, :building)",
-                {"row": row, "col": col, "building": building}
-                )
-            building_id = self._db.cursor.lastrowid
-            self._db.cursor.execute(
-                "UPDATE position SET building_id = :last_id WHERE "
-                "row = :row AND col = :col",
-                {'last_id': building_id,
-                'row': row,
-                'col': col,
-                }
-            )
-            self._db.connection.commit()
-            response['type'] = 'new_building'
-            response['id'] = building_id
+            building = Building().build(building, row, col)
+            if building:
+                response['type'] = 'new_building'
+                response['id'] = building.id
         else:
             response['type'] = 'occupied_land'
         return response
