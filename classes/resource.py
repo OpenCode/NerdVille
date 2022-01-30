@@ -6,13 +6,6 @@ from textual._context import active_app
 from consts.consts import RESOURCES
 
 
-def get_all():
-    resources = {}
-    for resource in RESOURCES.keys():
-        resources[resource] = Resource(resource)
-    return resources
-
-
 class Resource:
 
     resource = ''
@@ -38,6 +31,13 @@ class Resource:
             {'resource': self.resource, }
             )
         return self._db.cursor.fetchone()
+
+    @staticmethod
+    def get_all():
+        resources = {}
+        for resource in RESOURCES.keys():
+            resources[resource] = Resource(resource)
+        return resources
 
     @property
     def amount(self):

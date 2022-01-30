@@ -292,6 +292,7 @@ class NerdVille(App):
 
         await self.call_later(add_content)
 
+        self.title_area.update_info()
         self.show_info()
 
     async def handle_tree_click(self, message: TreeClick[dict]) -> None:

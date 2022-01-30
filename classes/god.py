@@ -3,7 +3,7 @@
 
 from textual._context import active_app
 
-from classes.building import get_all as building_get_all
+from classes.building import Building
 
 
 class God:
@@ -25,6 +25,6 @@ class God:
             Snap is the time that running out.
             Every God's snap something happens.
         """
-        buildings = building_get_all()
+        buildings = Building.get_all()
         for building in buildings:
             building.produce()

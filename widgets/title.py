@@ -8,7 +8,7 @@ from rich.panel import Panel
 
 from consts.consts import BUILD, VERSION
 
-from classes.resource import get_all
+from classes.resource import Resource
 
 
 class Title(Widget):
@@ -21,7 +21,7 @@ class Title(Widget):
 
     def on_mount(self):
         # A day every minute
-        self.set_interval(60, self.update_info)
+        self.set_interval(1, self.update_info)
 
     def update_info(self) -> None:
         hourglass = active_app.get().hourglass
@@ -40,7 +40,7 @@ class Title(Widget):
             f"Day [bold]{self.actual_day}[/bold]",
             f"(x{self.time_speed})" if self.time_speed > 0 else "(:zzz:)",
             ]
-        resources = get_all()
+        resources = Resource.get_all()
         resources_info = []
         for resource_name in resources:
             resource = resources[resource_name]
