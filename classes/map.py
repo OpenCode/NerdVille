@@ -1,7 +1,9 @@
 # Copyright 2022-TODAY Francesco Apruzzese <cescoap@gmail.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
+import csv
 from collections import namedtuple
+from random import choice
 
 from textual._context import active_app
 
@@ -36,27 +38,35 @@ class Map:
     def generate_map(self):
         self._db.cursor.execute("DELETE FROM building;")
         self._db.cursor.execute("DELETE FROM position;")
-        # Create the map
-        for i in range(self.rows_number):
-            cell_content = 'environments-grass'
-            for j in range(self.cols_number):
-                if i in (10, 11, 12):
-                    if j in (3, 4):
-                        cell_content = 'buildings-bridge'
-                    else:
-                        cell_content = 'environments-sea'
+        # TODO: Move maps in the hidden application folder
+        # and use coiche on random result of the folder content
+        # so user can add personal maps, too
+        maps = ("river", "sea")
+        with open(f"maps/{choice(maps)}.csv", newline="") as map_csv:
+            map_reader = csv.reader(map_csv, delimiter=',', quotechar='"')
+            for row_number, row in enumerate(map_reader):
+                if row_number == 0:
+                    map_version = row[0].split(":")[1]
+                    rows = row[1].split(":")[1]
+                    cols = row[2].split(":")[1]
+                    castle_row = row[3].split(":")[1]
+                    castle_col = row[4].split(":")[1]
                 else:
-                    cell_content = 'environments-grass'
-                self._db.cursor.execute(
-                    f"INSERT INTO position "
-                    f"(row, col, type)"
-                    f" VALUES "
-                    f" ({i}, {j}, '{cell_content}') "
-                    )
-        # Auto-build the castle
-        castle = self._app.get().castle
-        self.build(castle.row, castle.col, 'buildings-castle')
-        self._db.connection.commit()
+                    for col_number, col in enumerate(row):
+                        self._db.cursor.execute(
+                            f"INSERT INTO position "
+                            f"(row, col, type)"
+                            f" VALUES "
+                            f" ({row_number-1}, {col_number}, '{col}') "
+                            )
+            self._db.set_game_value("map_rows", rows)
+            self._db.set_game_value("map_cols", cols)
+            self._db.set_game_value("castle_position_row", castle_row)
+            self._db.set_game_value("castle_position_col", castle_col)
+            # Auto-build the castle
+            castle = self._app.get().castle
+            self.build(castle.row, castle.col, "buildings-castle")
+            self._db.connection.commit()
 
     def can_move_here(self, row, col):
         """

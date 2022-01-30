@@ -122,14 +122,14 @@ class Db:
         self.set_game_value("version", VERSION)
         self.set_game_value("build", BUILD)
         # Define the map dimension
-        self.init_game_value("map_rows", ROWS_NUMBER)
-        self.init_game_value("map_cols", COLS_NUMBER)
+        self.init_game_value("map_rows", 0)
+        self.init_game_value("map_cols", 0)
         # Define start position for the king
         self.init_game_value("king_position_row", "0")
         self.init_game_value("king_position_col", "0")
         # Define start position for the the castle
-        self.init_game_value("castle_position_row", randint(0, ROWS_LIMIT))
-        self.init_game_value("castle_position_col", randint(0, COLS_LIMIT))
+        self.init_game_value("castle_position_row", 0)
+        self.init_game_value("castle_position_col", 0)
         # Create the time counter
         self.init_game_value("hourglass_value", "1")
         self.init_game_value("hourglass_speed", "1")
