@@ -133,6 +133,7 @@ class Db:
         # Create the time counter
         self.init_game_value("hourglass_value", "1")
         self.init_game_value("hourglass_speed", "1")
+        self.init_game_value("hourglass_frequency", "60") # In seconds
         # Create graph configurations
         self.init_game_value("element_style", "ASCII")
         # Create resources counter

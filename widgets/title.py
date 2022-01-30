@@ -21,7 +21,8 @@ class Title(Widget):
 
     def on_mount(self):
         # A day every minute
-        self.set_interval(1, self.update_info)
+        frequency = active_app.get().hourglass.frequency
+        self.set_interval(frequency, self.update_info)
 
     def update_info(self) -> None:
         hourglass = active_app.get().hourglass

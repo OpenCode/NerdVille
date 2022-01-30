@@ -14,6 +14,7 @@ class Hourglass:
 
     _value = 0
     _speed = 1
+    frequency = 1
     _app = None
     _db = None
 
@@ -24,6 +25,7 @@ class Hourglass:
         self._db = db
         self._value = int(db.get_game_value("hourglass_value"))
         self._speed = int(db.get_game_value("hourglass_speed"))
+        self.frequency = int(db.get_game_value("hourglass_frequency"))
 
     @property
     def value(self):
