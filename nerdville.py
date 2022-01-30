@@ -97,38 +97,26 @@ class NerdVille(App):
     def action_move_up(self) -> None:
         # self.ville_area.king_move_up()
         self.king.move_up()
-        self.log_area.update(
-            f'[KING MOVE UP] {self.ville_area.king_position}')
         self.show_info()
 
     def action_move_down(self) -> None:
         self.king.move_down()
-        self.log_area.update(
-            f'[KING MOVE DOWN] {self.ville_area.king_position}')
         self.show_info()
 
     def action_move_left(self) -> None:
         self.king.move_left()
-        self.log_area.update(
-            f'[KING MOVE LEFT] {self.ville_area.king_position}')
         self.show_info()
 
     def action_move_right(self) -> None:
         self.king.move_right()
-        self.log_area.update(
-            f'[KING MOVE RIGHT] {self.ville_area.king_position}')
         self.show_info()
 
     def action_move_to_castle(self) -> None:
         self.king.move_to_castle()
-        self.log_area.update(
-            f'[KING MOVE TO CASTLE] {self.ville_area.king_position}')
         self.show_info()
 
     def action_move_to_origin(self) -> None:
         self.king.move_to_origin()
-        self.log_area.update(
-            f'[KING MOVE TO ORIGIN] {self.ville_area.king_position}')
         self.show_info()
 
     # Menu called function
