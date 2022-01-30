@@ -81,13 +81,13 @@ class Map:
             )
         record = self._db.cursor.fetchone()
         if record["building_id"]:
-            building = Building(record["building_id"])
+            building = Building().get(record["building_id"])
         else:
             building = None
         if building:
             element = building.element
         else:
-            element = Element(record["type"])
+            element = Element().get(record["type"])
         Position = namedtuple('Position', ['type', 'building', 'element'])
         position_object = Position(
             record["type"], building, element

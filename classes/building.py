@@ -9,7 +9,7 @@ from classes.resource import Resource
 
 class Building:
 
-    id = 0
+    id = None
     row = 0
     col = 0
     level = 0
@@ -18,18 +18,21 @@ class Building:
     _app = None
     _db = None
 
-    def __init__(self, building_id):
+    def __init__(self):
         app = active_app
         db = app.get().db
         self._app = app
         self._db = db
+
+    def get(self, building_id):
         self.id = building_id
         data = self.get_data()
         self.row = data["row"]
         self.col = data["col"]
         self.level = data["level"]
         self._building = data['building']
-        self.element = Element(self._building)
+        self.element = Element().get(self._building)
+        return self
 
     def get_data(self):
         self._db.cursor.execute(
@@ -39,18 +42,16 @@ class Building:
             )
         return self._db.cursor.fetchone()
 
-    @staticmethod
-    def get_all():
-        db = active_app.get().db
-        db.cursor.execute("SELECT id FROM building WHERE id > 0")
+    def get_all(self):
+        self._db.cursor.execute("SELECT id FROM building WHERE id > 0")
         buildings = []
-        records = db.cursor.fetchall()
+        records = self._db.cursor.fetchall()
         for record in records:
-            buildings.append(Building(record['id']))
+            buildings.append(Building().get(record['id']))
         return buildings
 
     def produce(self):
         if self.element.production:
             for resource_name in self.element.production.keys():
-                resource = Resource(resource_name)
+                resource = Resource().get(resource_name)
                 resource.increment(self.element.production[resource_name])

@@ -6,21 +6,23 @@ from textual._context import active_app
 
 class Element:
 
-    code = ''
-    category = ''
-    name = ''
-    symbol = ''
-    block = False
+    code = None
+    category = None
+    name = None
+    symbol = None
+    block = None
     cost = None
     production = None
     _app = None
     _db = None
 
-    def __init__(self, code):
+    def __init__(self):
         app = active_app
         db = app.get().db
         self._app = app
         self._db = db
+
+    def get(self, code):
         self.code = code
         data = self.get_data()
         self.category = data["category"]
@@ -32,6 +34,7 @@ class Element:
         self.block = data['block']
         self.cost = data['cost']
         self.production = data['production']
+        return self
 
     def _get_raw_data(self):
         self._db.cursor.execute(

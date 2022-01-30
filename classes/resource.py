@@ -8,21 +8,24 @@ from consts.consts import RESOURCES
 
 class Resource:
 
-    resource = ''
-    symbol = ''
-    _amount = 0
+    resource = None
+    symbol = None
+    _amount = None
     _app = None
     _db = None
 
-    def __init__(self, resource):
+    def __init__(self):
         app = active_app
         db = app.get().db
         self._app = app
         self._db = db
+
+    def get(self, resource):
         self.resource = resource
         data = self.get_data()
         self.symbol = data['symbol']
         self._amount = data['amount']
+        return self
 
     def get_data(self):
         self._db.cursor.execute(
@@ -36,7 +39,7 @@ class Resource:
     def get_all():
         resources = {}
         for resource in RESOURCES.keys():
-            resources[resource] = Resource(resource)
+            resources[resource] = Resource().get(resource)
         return resources
 
     @property

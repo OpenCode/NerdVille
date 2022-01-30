@@ -45,7 +45,7 @@ class VilleArea(Widget):
             for element in records:
                 col = element["col"]
                 if king.row == row and king.col == col:
-                    cell_content = Element('characters-king').symbol
+                    cell_content = Element().get('characters-king').symbol
                 else:
                     position = game_map.position(row, col)
                     cell_content = position.element.symbol

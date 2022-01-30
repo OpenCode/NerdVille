@@ -25,6 +25,6 @@ class God:
             Snap is the time that running out.
             Every God's snap something happens.
         """
-        buildings = Building.get_all()
+        buildings = Building().get_all()
         for building in buildings:
             building.produce()
