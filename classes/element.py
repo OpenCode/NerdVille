@@ -11,6 +11,8 @@ class Element:
     name = ''
     symbol = ''
     block = False
+    cost = None
+    production = None
     _app = None
     _db = None
 
@@ -27,12 +29,27 @@ class Element:
             self.symbol = data["emoji"] or data["symbol"]
         else:
             self.symbol = data["symbol"]
-        self.block = bool(data['block'])
+        self.block = data['block']
+        self.cost = data['cost']
+        self.production = data['production']
 
-    def get_data(self):
+    def _get_raw_data(self):
         self._db.cursor.execute(
             "SELECT * FROM element "
             "WHERE code = :code",
             {'code': self.code, }
             )
         return self._db.cursor.fetchone()
+
+    def get_data(self):
+        raw_data = self._get_raw_data()
+        structured_data = {}
+        for data in raw_data.keys():
+            if data in ('block'):
+                structured_data[data] = bool(raw_data[data])
+            elif data in ('cost', 'production'):
+                structured_data[data] = self._db._from_database_to_dict(
+                    raw_data[data])
+            else:
+                structured_data[data] = raw_data[data]
+        return structured_data

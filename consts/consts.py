@@ -44,11 +44,14 @@ BUILDINGS = {
         "name": "House",
         "symbol": "[bold]X[/bold]",
         "emoji": ":house:",
+        "cost": {"gold": 10},
         },
     'hospital': {
         "name": "Hospital",
         "symbol": "[bold]H[/bold]",
         "emoji": ":hospital:",
+        "cost": {"gold": 100},
+        "production": {"health": 1},
         },
     "bridge": {
         "name": "Bridge",
@@ -59,21 +62,29 @@ BUILDINGS = {
         "name": "Farm",
         "symbol": "[bold yellow]#[/bold yellow]",
         "emoji": ":ear_of_rice:",
+        "cost": {"gold": 30, "wood": 100},
+        "production": {"hay": 1},
         },
     "lumberjack": {
         "name": "Lumberjack",
         "symbol": "[bold green]T[/bold green]",
         "emoji": ":deciduous_tree:",
+        "cost": {"gold": 30},
+        "production": {"wood": 1},
         },
     "tavern": {
         "name": "Tavern",
         "symbol": "[bold]U[/bold]",
         "emoji": ":beers:",
+        "cost": {"gold": 100, "wood": 200},
+        "production": {"happiness": 1},
         },
     "church": {
         "name": "Church",
         "symbol": "[bold]+[/bold]",
         "emoji": ":church:",
+        "cost": {"gold": 1000, "wood": 2000},
+        "production": {"spirituality": 1},
         },
 }
 
@@ -94,8 +105,13 @@ Elements structure
         Available code here:
             https://github.com/Textualize/rich/blob/master/rich/_emoji_codes.py
     "cost" ->
-        [integer, deefault 0]
-        Gold used to build the element,
+        [dict, default None]
+        Resources used to build the element.
+        F.E. {"gold": 10, "wood": 20}
+    "production" ->
+        [dict, default None]
+        Resources created by the building.
+        F.E. {"wood": 20, "happiness": 1}
     "block" ->
         [boolean, default False]
         If True, characters can't pass through it

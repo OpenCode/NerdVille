@@ -29,4 +29,15 @@ class Info(Widget):
             building_values = [
                 f"[bold]LEVEL: [/bold]{building.level}",
             ]
+            if building.element.cost:
+                building_values.append("[bold]COST: [/bold]")
+                for cost in building.element.cost:
+                    building_values.append(
+                        f"  {cost.title()}: {building.element.cost[cost]}")
+            if building.element.production:
+                building_values.append("[bold]PRODUCTION: [/bold]")
+                for production in building.element.production:
+                    building_values.append(
+                        f"  {production.title()}: "
+                        f"{building.element.production[production]}")
         self.value = "\n".join(values + building_values)

@@ -2,6 +2,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 from random import randint
+from json import dumps, loads
 import sqlite3
 from os.path import join
 
@@ -24,6 +25,18 @@ class Db:
             return 1
         else:
             return 0
+
+    def _from_dict_to_database(self, value):
+        if not value:
+            return ""
+        else:
+            return dumps(value)
+
+    def _from_database_to_dict(self, value):
+        if not value:
+            return {}
+        else:
+            return loads(value)
 
     def get_game_value(self, key):
         self.cursor.execute(
@@ -88,6 +101,8 @@ class Db:
             "code TEXT NOT NULL UNIQUE, "
             "category TEXT NOT NULL, "
             "name TEXT NOT NULL UNIQUE, "
+            "cost TEXT, "
+            "production TEXT, "
             "block INTEGER, "
             "symbol TEXT NOT NULL UNIQUE, "
             "emoji TEXT"
@@ -115,15 +130,22 @@ class Db:
             elements = ELEMENTS[element_type]
             for element_name in elements:
                 element = elements[element_name]
+                cost = self._from_dict_to_database(
+                    element.get('cost'))
+                production = self._from_dict_to_database(
+                    element.get('production'))
                 self.cursor.execute(
-                    f"INSERT OR IGNORE INTO element "
-                    f"(code, category, name, symbol, emoji, block) "
-                    "VALUES ("
+                    "INSERT OR IGNORE INTO element ("
+                    "code, category, name, cost, production, "
+                    "symbol, emoji, block"
+                    ") VALUES ("
                     f"'{element_type}-{element_name}', "
                     f"'{element_type}', "
                     f"'{element['name']}', "
+                    f"'{cost}', "
+                    f"'{production}', "
                     f"'{element['symbol']}', "
                     f"'{element.get('emoji', '')}', "
                     f"{self._convert_in_boolean(element.get('block', False))}"
-                    f")")
+                    ")")
         self.connection.commit()
