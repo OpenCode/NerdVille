@@ -6,7 +6,7 @@ from textual.reactive import Reactive
 from textual._context import active_app
 from rich.panel import Panel
 
-from consts.consts import VERSION
+from consts.consts import BUILD, VERSION
 
 
 class Title(Widget):
@@ -39,6 +39,6 @@ class Title(Widget):
             ]
         return Panel(
             ":bar_chart: [bold]0[/bold] | :money_bag: [bold]100[/bold]",
-            title=f"NerdVille {VERSION}",
+            title=f"NerdVille {VERSION}-b{BUILD}",
             subtitle=" ".join(time_info)
             )

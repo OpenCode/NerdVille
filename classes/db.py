@@ -6,6 +6,7 @@ import sqlite3
 from os.path import join
 
 from consts.consts import \
+    VERSION, BUILD, \
     ELEMENTS, \
     ROWS_LIMIT, ROWS_NUMBER, \
     COLS_LIMIT, COLS_NUMBER
@@ -92,6 +93,9 @@ class Db:
             "emoji TEXT"
             ")"
             )
+        # Set Version information
+        self.set_game_value("version", VERSION)
+        self.set_game_value("build", BUILD)
         # Define the map dimension
         self.init_game_value("map_rows", ROWS_NUMBER)
         self.init_game_value("map_cols", COLS_NUMBER)
