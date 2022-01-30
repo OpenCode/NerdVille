@@ -12,7 +12,7 @@ class Logs(Widget):
 
     def update(self, message) -> None:
         actual_values = self.value.split('\n')
-        new_values = [message, ] + actual_values[0:5]
+        new_values = actual_values[-5:] + [message, ]
         self.value = '\n'.join(new_values)
 
     def render(self) -> Panel:
