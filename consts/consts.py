@@ -112,8 +112,8 @@ BUILDINGS = {
         "name": "Fisherman",
         "symbol": "[bold blue]F[/bold blue]",
         "emoji": ":fishing_pole:",
-        "cost": {"gold": 30},
-        "production": {"wood": 3},
+        "cost": {"gold": 30, "wood": 5},
+        "production": {"fish": 3},
         "building_constraints": {"side-any": 'environments-sea'}
         },
     "tavern": {
