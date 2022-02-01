@@ -222,6 +222,12 @@ class NerdVille(App):
             )
         await menu.add(
             menu.root.id + 1,
+            f"{EMOJI['fishing_pole']} fisherman",
+            {"menu_function": "menu_build",
+             "menu_function_data": {'building': "buildings-fisherman"}},
+            )
+        await menu.add(
+            menu.root.id + 1,
             f"{EMOJI['beers']} Tavern",
             {"menu_function": "menu_build",
              "menu_function_data": {'building': "buildings-tavern"}},

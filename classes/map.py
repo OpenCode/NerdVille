@@ -90,6 +90,8 @@ class Map:
             {'row': row, 'col': col, }
             )
         record = self._db.cursor.fetchone()
+        if not record:
+            return None
         if record["building_id"]:
             building = Building().get(record["building_id"])
         else:

@@ -52,8 +52,9 @@ class Building:
 
     def build(self, building, row, col):
         element = Element().get(building)
+        # Check resources used for the build
         insufficent_resources = []
-        for resource_name, cost in  element.cost.items():
+        for resource_name, cost in element.cost.items():
             resource = Resource().get(resource_name)
             if resource.amount < cost:
                 insufficent_resources.append(resource_name)
@@ -63,6 +64,54 @@ class Building:
             self._app.get().log_area.update(
                 f"Insufficent resources: {', '.join(insufficent_resources)}")
             return None
+        # Check building constraints
+        game_map = self._app.get().map
+        can_build = False
+        for constraint_name, constraint in \
+                element.building_constraints.items():
+            # Check sides constraints
+            if constraint_name.startswith('side-'):
+                side = constraint_name.split('-')[1]
+                if side in ('all', 'any'):
+                    positions = [
+                        game_map.position(row-1, col),
+                        game_map.position(row+1, col),
+                        game_map.position(row, col-1),
+                        game_map.position(row, col+1),
+                    ]
+                    position_elements = [
+                        p.element.code == constraint
+                        for p in positions
+                        if p
+                    ]
+                    if position_elements and side == 'all':
+                        can_build = all(position_elements)
+                    elif position_elements and side == 'any':
+                        can_build = any(position_elements)
+                    else:
+                        can_build = False
+                else:
+                    if side == 'up':
+                        position = game_map.position(row-1, col)
+                        if position and position.element.code == constraint:
+                            can_build = True
+                    elif side == 'down':
+                        position = game_map.position(row+1, col)
+                        if position and position.element.code == constraint:
+                            can_build = True
+                    elif side == 'left':
+                        position = game_map.position(row, col-1)
+                        if position and position.element.code == constraint:
+                            can_build = True
+                    elif side == 'right':
+                        position = game_map.position(row, col+1)
+                    if position and position.element.code == constraint:
+                        can_build = True
+        if not can_build:
+            self._app.get().log_area.update(f"Constraints not respected")
+            return None
+        # Build with Bob the Builder!
+        # https://www.youtube.com/watch?v=l-epqIHe4w0
         self._db.cursor.execute(
             "INSERT OR REPLACE INTO building "
             "(row, col, building) "

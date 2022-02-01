@@ -13,6 +13,7 @@ class Element:
     block = None
     cost = None
     production = None
+    building_constraints = None
     _app = None
     _db = None
 
@@ -34,6 +35,7 @@ class Element:
         self.block = data['block']
         self.cost = data['cost']
         self.production = data['production']
+        self.building_constraints = data['building_constraints']
         return self
 
     def _get_raw_data(self):
@@ -50,7 +52,7 @@ class Element:
         for data in raw_data.keys():
             if data in ('block'):
                 structured_data[data] = bool(raw_data[data])
-            elif data in ('cost', 'production'):
+            elif data in ('cost', 'production', 'building_constraints'):
                 structured_data[data] = self._db._from_database_to_dict(
                     raw_data[data])
             else:

@@ -29,15 +29,28 @@ class Info(Widget):
             building_values = [
                 f"[bold]LEVEL: [/bold]{building.level}",
             ]
+            # Show building cost
             if building.element.cost:
                 building_values.append("[bold]COST: [/bold]")
                 for cost in building.element.cost:
                     building_values.append(
                         f"  {cost.title()}: {building.element.cost[cost]}")
+            # Show building production
             if building.element.production:
                 building_values.append("[bold]PRODUCTION: [/bold]")
                 for production in building.element.production:
                     building_values.append(
                         f"  {production.title()}: "
                         f"{building.element.production[production]}")
+            # Show building constraints
+            if building.element.building_constraints:
+                building_values.append("[bold]BUILDING CONSTRAITS: [/bold]")
+                for constrain in building.element.building_constraints:
+                    constraint_data = constrain.split('-')
+                    contraint_val = \
+                        building.element.building_constraints[constrain]
+                    building_values.append(
+                        f"  {constraint_data[0].title()} "
+                        f"{constraint_data[1].title()}: "
+                        f"{contraint_val.split('-')[1].title()}")
         self.value = "\n".join(values + building_values)

@@ -37,6 +37,10 @@ RESOURCES = {
         "amount": 0,
         "symbol": ":deciduous_tree:",
         },
+    'fish': {
+        "amount": 0,
+        "symbol": ":fish:",
+        },
     'health': {
         "amount": 0,
         "symbol": ":medical_symbol:",
@@ -104,6 +108,14 @@ BUILDINGS = {
         "cost": {"gold": 30},
         "production": {"wood": 1},
         },
+    "fisherman": {
+        "name": "Fisherman",
+        "symbol": "[bold blue]F[/bold blue]",
+        "emoji": ":fishing_pole:",
+        "cost": {"gold": 30},
+        "production": {"wood": 3},
+        "building_constraints": {"side-any": 'environments-sea'}
+        },
     "tavern": {
         "name": "Tavern",
         "symbol": "[bold]U[/bold]",
@@ -147,6 +159,19 @@ Elements structure
     "block" ->
         [boolean, default False]
         If True, characters can't pass through it
+    "building_constraints" ->
+        [dict, default None]
+        Constraints for element building. It can be:
+            - side-SIDE:
+                the cell in the relative side SIDE
+                must be of the indicated type.
+                SIDE can be:
+                    - up: above cell
+                    - down: below cell
+                    - left: cell on the left
+                    - right: cell on the right
+                    - any: any position
+                    - all: all the positions
 }
 '''
 
