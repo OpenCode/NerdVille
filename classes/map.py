@@ -13,10 +13,8 @@ from classes.building import Building
 
 class Map:
 
-    rows_number = 0
-    cols_number = 0
-    rows_limit = 0
-    cols_limit = 0
+    _rows_number = 0
+    _cols_number = 0
     _app = None
     _db = None
 
@@ -25,17 +23,39 @@ class Map:
         db = app.get().db
         self._app = app
         self._db = db
-        self.rows_number = int(db.get_game_value("map_rows"))
-        self.rows_limit = self.rows_number - 1
-        self.cols_number = int(db.get_game_value("map_cols"))
-        self.cols_limit = self.cols_number - 1
         # If is a new database (position is empty), create a new map
         self._db.cursor.execute("select count(*) from position")
         positions = self._db.cursor.fetchone()
         if positions[0] == 0:
             self.generate_map()
 
-    def generate_map(self):
+    @property
+    def rows_number(self):
+        return self._rows_number
+
+    @rows_number.setter
+    def rows_number(self, value):
+        self._db.set_game_value("map_rows", value)
+        self._rows_number = int(value)
+
+    @property
+    def rows_limit(self):
+        return self.rows_number - 1
+
+    @property
+    def cols_number(self):
+        return self._cols_number
+
+    @cols_number.setter
+    def cols_number(self, value):
+        self._db.set_game_value("map_cols", value)
+        self._cols_number = int(value)
+
+    @property
+    def cols_limit(self):
+        return self.cols_number - 1
+
+    def generate_map(self) -> None:
         self._db.cursor.execute("DELETE FROM building;")
         self._db.cursor.execute("DELETE FROM position;")
         # TODO: Move maps in the hidden application folder
@@ -47,10 +67,10 @@ class Map:
             for row_number, row in enumerate(map_reader):
                 if row_number == 0:
                     map_version = row[0].split(":")[1]
-                    rows = row[1].split(":")[1]
-                    cols = row[2].split(":")[1]
-                    castle_row = row[3].split(":")[1]
-                    castle_col = row[4].split(":")[1]
+                    rows = int(row[1].split(":")[1])
+                    cols = int(row[2].split(":")[1])
+                    castle_row = int(row[3].split(":")[1])
+                    castle_col = int(row[4].split(":")[1])
                 else:
                     for col_number, col in enumerate(row):
                         self._db.cursor.execute(
@@ -59,14 +79,15 @@ class Map:
                             f" VALUES "
                             f" ({row_number-1}, {col_number}, '{col}') "
                             )
-            self._db.set_game_value("map_rows", rows)
-            self._db.set_game_value("map_cols", cols)
-            self._db.set_game_value("castle_position_row", castle_row)
-            self._db.set_game_value("castle_position_col", castle_col)
-            # Auto-build the castle
-            castle = self._app.get().castle
-            self.build(castle.row, castle.col, "buildings-castle")
             self._db.connection.commit()
+            self.rows_number = rows
+            self.cols_number = cols
+            castle = self._app.get().castle
+            castle.row = castle_row
+            castle.col = castle_col
+            # Auto-build the castle
+            Building().build_castle()
+        return None
 
     def can_move_here(self, row, col):
         """

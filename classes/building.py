@@ -66,7 +66,7 @@ class Building:
             return None
         # Check building constraints
         game_map = self._app.get().map
-        can_build = False
+        can_build = True
         for constraint_name, constraint in \
                 element.building_constraints.items():
             # Check sides constraints
@@ -110,6 +110,14 @@ class Building:
         if not can_build:
             self._app.get().log_area.update(f"Constraints not respected")
             return None
+        return self._build(row, col, building)
+
+    def build_castle(self):
+        castle = self._app.get().castle
+        # Bypass every check for the castle
+        return self._build(castle.row, castle.col, 'buildings-castle')
+
+    def _build(self, row, col, building):
         # Build with Bob the Builder!
         # https://www.youtube.com/watch?v=l-epqIHe4w0
         self._db.cursor.execute(
