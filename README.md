@@ -77,3 +77,8 @@ The game can be played in textual mode (default) or emoji mode
 ### Emoji Mode
 
 ![Emoji Mode](readme/img/emoji_mode.png)
+
+
+# Support
+
+<a href="https://www.buymeacoffee.com/scapigliato" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-blue.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
