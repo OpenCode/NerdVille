@@ -66,7 +66,10 @@ class Building:
             return None
         # Check building constraints
         game_map = self._app.get().map
-        can_build = True
+        if element.building_constraints:
+            can_build = False
+        else:
+            can_build = True
         for constraint_name, constraint in \
                 element.building_constraints.items():
             # Check sides constraints
@@ -107,6 +110,10 @@ class Building:
                         position = game_map.position(row, col+1)
                     if position and position.element.code == constraint:
                         can_build = True
+            elif constraint_name == 'build-on':
+                position = game_map.position(row, col)
+                if position and position.element.code == constraint:
+                    can_build = True
         if not can_build:
             self._app.get().log_area.update(f"Constraints not respected")
             return None
