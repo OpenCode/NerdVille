@@ -39,7 +39,7 @@ Create your village in your console
 
 ### Environments
 
-| Nam    | Icon                                   | Emoji |
+| Name   | Icon                                   | Emoji |
 |:-------|:--------------------------------------:|:-----:|
 | Grass  | <span style="color:green">.</span>     |       |
 | Water  | <span style="color:blue">**~**</span>  | 🌊    |
