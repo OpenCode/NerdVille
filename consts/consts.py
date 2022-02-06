@@ -72,6 +72,11 @@ ENVIRONMENTS = {
         "symbol":"[bold grey]*[/bold grey]",
         "block": True,
         },
+    "tree": {
+        "name": "Tree",
+        "symbol":"[green]A[/green]",
+        "emoji": ":deciduous_tree:",
+        },
 }
 
 
