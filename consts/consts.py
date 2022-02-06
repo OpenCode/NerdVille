@@ -117,6 +117,7 @@ BUILDINGS = {
         "emoji": ":axe:",
         "cost": {"gold": 30},
         "production": {"wood": 1},
+        "building_constraints": {"build-on": 'environments-tree'}
         },
     "fisherman": {
         "name": "Fisherman",
