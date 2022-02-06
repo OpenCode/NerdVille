@@ -43,6 +43,7 @@ Create your village in your console
 |:-------|:--------------------------------------:|:-----:|
 | Grass  | <span style="color:green">.</span>     |       |
 | Water  | <span style="color:blue">**~**</span>  | 🌊    |
+| Rock   | <span style="color:gray">*</span>      |       |
 
 ## Keyboard
 

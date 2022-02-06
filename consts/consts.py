@@ -67,6 +67,11 @@ ENVIRONMENTS = {
         "name": "Free Space",
         "symbol":"[green].[/green]",
         },
+    "rock": {
+        "name": "Rock",
+        "symbol":"[bold grey]*[/bold grey]",
+        "block": True,
+        },
 }
 
 
