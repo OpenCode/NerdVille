@@ -28,6 +28,8 @@ class Map:
         positions = self._db.cursor.fetchone()
         if positions[0] == 0:
             self.generate_map()
+        self._rows_number = int(self._db.get_game_value("map_rows"))
+        self._cols_number = int(self._db.get_game_value("map_cols"))
 
     @property
     def rows_number(self):
