@@ -2,6 +2,12 @@
 
 Create your village in your console
 
+![version](https://img.shields.io/badge/Version-0.1.0+dev-informational?style=for-the-badge)
+
+Use the software at your own risk. Continuous code developments may cause you to lose your game data.
+
+---
+
 ## Symbols
 
 ### Charaters
