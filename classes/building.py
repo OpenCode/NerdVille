@@ -125,6 +125,8 @@ class Building:
                 resource.increment(amount)
         # Register event
         self._app.get().event.register("new-building", building_id)
+        # Update title
+        self._app.get().title_area.update_info()
         return building_id
 
     def build_castle(self):
