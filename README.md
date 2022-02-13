@@ -12,6 +12,12 @@ Use the software at your own risk. Continuous code developments may cause you to
 
 ---
 
+## Social
+
+[![discord](https://img.shields.io/discord/942440770277875753?style=for-the-badge&label=Discord&logo=Discord)](https://discord.gg/ngDBEaPYAz)
+
+---
+
 ## Symbols
 
 ### Charaters
