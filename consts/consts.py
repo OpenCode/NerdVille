@@ -183,6 +183,8 @@ Elements structure
                     - right: cell on the right
                     - any: any position
                     - all: all the positions
+            - build-on:
+                the cell must be of the indicated type.
 }
 '''
 
