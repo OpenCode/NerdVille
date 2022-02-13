@@ -160,4 +160,13 @@ class Building:
         if self.element.production:
             for resource_name in self.element.production.keys():
                 resource = Resource().get(resource_name)
-                resource.increment(self.element.production[resource_name])
+                increment = self.element.production[resource_name]
+                if isinstance(increment, int):
+                    resource.increment(increment)
+                else:
+                    for increment_resource_name in increment.keys():
+                        increment_resource = Resource().get(
+                            increment_resource_name)
+                        resource.increment(
+                            increment_resource.amount * 
+                            increment[increment_resource_name])

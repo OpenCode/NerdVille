@@ -85,6 +85,7 @@ BUILDINGS = {
         "name": "Castle",
         "symbol": "[bold]O[/bold]",
         "emoji": ":castle:",
+        "production": {"gold": {"population": 2}},
         },
     'house': {
         "name": "House",
@@ -167,7 +168,14 @@ Elements structure
     "production" ->
         [dict, default None]
         Resources created by the building on every loop.
-        F.E. {"wood": 20, "happiness": 1}
+        It can be an integer to increment a value directly
+            F.E. {"wood": 20, "happiness": 1}
+        or can be a dict to increment a value based on other resources
+            F.E. {"gold": {"population": 2}}
+                 -> 2 gold will be created for every population
+                 {"gold": {"population": 2, "wood": 1}}
+                 -> 2 gold will be created for every population and 1
+                    for every wood
     "production_on_build" ->
         [dict, default None]
         Resources created by the building at the build moment.

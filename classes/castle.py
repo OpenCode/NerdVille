@@ -3,6 +3,8 @@
 
 from textual._context import active_app
 
+from classes.resource import Resource
+
 
 class Castle:
 
