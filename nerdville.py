@@ -21,6 +21,7 @@ from classes.map import Map
 from classes.king import King
 from classes.castle import Castle
 from classes.hourglass import Hourglass
+from classes.event import Event
 from classes.god import God
 
 
@@ -277,6 +278,7 @@ class NerdVille(App):
         self.king = King()
         self.hourglass = Hourglass()
         self.map = Map()
+        self.event = Event()
         self.god = God()
 
         # Put the map in the ScrollView

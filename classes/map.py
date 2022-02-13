@@ -157,11 +157,15 @@ class Map:
         position_info = self.position(row, col)
         response = 'None'
         if position_info.building:
+            building_id = position_info.building.id
             self._db.cursor.execute(
                 "DELETE FROM building WHERE id = :id",
-                {'id': position_info.building.id}
+                {'id': building_id}
                 )
             response = 'ok'
+            self._db.connection.commit()
+            # Register event
+            self._app.get().event.register("demolish-building", building_id)
         else:
             response = 'nothing_to_demolish'
         return response

@@ -119,6 +119,18 @@ class Db:
             "symbol TEXT NOT NULL UNIQUE"
             ")"
             )
+        self.cursor.execute(
+            "CREATE TABLE IF NOT EXISTS "
+            "event ("
+            "id INTEGER PRIMARY KEY , "
+            "timestamp INTEGER, "
+            "year INTEGER, "
+            "month INTEGER, "
+            "day INTEGER, "
+            "type TEXT, "
+            "value TEXT "
+            ")"
+            )
         # Set Version information
         self.set_game_value("version", VERSION)
         self.set_game_value("build", BUILD)

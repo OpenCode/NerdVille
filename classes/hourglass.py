@@ -31,6 +31,16 @@ class Hourglass:
     def value(self):
         return self._value
 
+    @property
+    def values(self):
+        info = self._hourglass_to_dates()
+        return {
+            'timestamp': self.value,
+            'year': info[0],
+            'month': info[1],
+            'day': info[2],
+        }
+
     @value.setter
     def value(self, value):
         self._db.set_game_value("hourglass_value", value)

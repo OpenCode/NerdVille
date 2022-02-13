@@ -144,6 +144,8 @@ class Building:
             }
         )
         self._db.connection.commit()
+        # Register event
+        self._app.get().event.register("new-building", building_id)
         return self.get(building_id)
 
     def produce(self):
