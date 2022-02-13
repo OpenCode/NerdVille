@@ -2,6 +2,10 @@
 
 Create your village in your console
 
+![Emoji Mode](icons/128.png)
+
+<a href="https://www.flaticon.com/free-icons/village" title="village icons">Village icons created by Freepik - Flaticon</a>
+
 ![version](https://img.shields.io/badge/Version-0.1.0+dev-informational?style=for-the-badge)
 
 Use the software at your own risk. Continuous code developments may cause you to lose your game data.
