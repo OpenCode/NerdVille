@@ -91,6 +91,7 @@ BUILDINGS = {
         "symbol": "[bold]X[/bold]",
         "emoji": ":house:",
         "cost": {"gold": 10},
+        "production_on_build": {"population": 2},
         },
     'hospital': {
         "name": "Hospital",
@@ -165,8 +166,12 @@ Elements structure
         F.E. {"gold": 10, "wood": 20}
     "production" ->
         [dict, default None]
-        Resources created by the building.
+        Resources created by the building on every loop.
         F.E. {"wood": 20, "happiness": 1}
+    "production_on_build" ->
+        [dict, default None]
+        Resources created by the building at the build moment.
+        F.E. {"gold": 1, "population": 2}
     "block" ->
         [boolean, default False]
         If True, characters can't pass through it

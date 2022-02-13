@@ -105,6 +105,7 @@ class Db:
             "name TEXT NOT NULL UNIQUE, "
             "cost TEXT, "
             "production TEXT, "
+            "production_on_build TEXT, "
             "building_constraints TEXT, "
             "block INTEGER, "
             "symbol TEXT NOT NULL UNIQUE, "
@@ -169,12 +170,16 @@ class Db:
                     element.get('cost'))
                 production = self._from_dict_to_database(
                     element.get('production'))
+                production_on_build = self._from_dict_to_database(
+                    element.get('production_on_build'))
                 building_constraints = self._from_dict_to_database(
                     element.get('building_constraints'))
                 self.cursor.execute(
                     "INSERT OR IGNORE INTO element ("
                     "code, category, name, "
-                    "cost, production, building_constraints, "
+                    "cost, "
+                    "production, production_on_build, "
+                    "building_constraints, "
                     "symbol, emoji, block"
                     ") VALUES ("
                     f"'{element_type}-{element_name}', "
@@ -182,6 +187,7 @@ class Db:
                     f"'{element['name']}', "
                     f"'{cost}', "
                     f"'{production}', "
+                    f"'{production_on_build}', "
                     f"'{building_constraints}', "
                     f"'{element['symbol']}', "
                     f"'{element.get('emoji', '')}', "

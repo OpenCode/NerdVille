@@ -117,7 +117,15 @@ class Building:
         if not can_build:
             self._app.get().log_area.update(f"Constraints not respected")
             return None
-        return self._build(row, col, building)
+        building_id = self._build(row, col, building)
+        # Generate resources on buld
+        if element.production_on_build:
+            for resource_name, amount in element.production_on_build.items():
+                resource = Resource().get(resource_name)
+                resource.increment(amount)
+        # Register event
+        self._app.get().event.register("new-building", building_id)
+        return building_id
 
     def build_castle(self):
         castle = self._app.get().castle
@@ -144,8 +152,6 @@ class Building:
             }
         )
         self._db.connection.commit()
-        # Register event
-        self._app.get().event.register("new-building", building_id)
         return self.get(building_id)
 
     def produce(self):
