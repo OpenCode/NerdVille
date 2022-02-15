@@ -24,6 +24,10 @@ from classes.castle import Castle
 from classes.hourglass import Hourglass
 from classes.event import Event
 from classes.god import God
+from classes.resource import Resource
+from classes.building import Building
+
+from consts.consts import BUILD, VERSION
 
 
 class NerdVille(App):
@@ -164,6 +168,34 @@ class NerdVille(App):
     def menu_switch_element_style(self, data={}):
         self.action_switch_element_style()
 
+    def menu_resources_log(self, data={}):
+        """
+            Geneate a file to share with devs to balance resources
+        """
+        resources = Resource().get_all()
+        resources_contents = [f"{r.resource},{r.amount}"
+                              for r in resources.values()]
+        buildigs_content = [f"{b._building},{b.level}"
+                            for b in Building().get_all()]
+        hourglass_contents = [
+            f"{h_name},{h_value}"
+            for h_name, h_value in
+            self.hourglass.values.items()
+            ]
+        filename = join(self.base_path, "resources_log.csv")
+        with open(filename, 'w') as resources_log:
+            resources_log.write("::Nerdville::\n")
+            resources_log.write(f"version,{VERSION}\n")
+            resources_log.write(f"build,{BUILD}")
+            resources_log.write("\n::Hourglass::\n")
+            resources_log.write("\n".join(hourglass_contents))
+            resources_log.write("\n::Resources::\n")
+            resources_log.write("\n".join(resources_contents))
+            resources_log.write("\n::Buildings::\n")
+            resources_log.write("\n".join(buildigs_content))
+        self.log_area.update(
+            f"Resources Log file generated in {filename}")
+
     # Textual functions
 
     async def on_mount(self, event: events.Mount) -> None:
@@ -208,6 +240,17 @@ class NerdVille(App):
             menu.root.id,
             f"{EMOJI['eyeglasses']}  View", {},
             )
+        if self.dev_mode:
+            await menu.add(
+                menu.root.id,
+                f"{EMOJI['computer']}  Dev", {},
+                )
+            await menu.add(
+                menu.root.id + 3,
+                f"{EMOJI['file_folder']} Resources Log",
+                {"menu_function": "menu_resources_log",
+                 "menu_function_data": {}},
+                )
         # Build node sub-menus
         await menu.add(
             menu.root.id + 1,
@@ -271,6 +314,8 @@ class NerdVille(App):
         await menu.root.expand()
         await menu.nodes[menu.root.id + 1].expand()
         await menu.nodes[menu.root.id + 2].expand()
+        if self.dev_mode:
+            await menu.nodes[menu.root.id + 3].expand()
         # Fill the grid
         grid.place(
             title_area=self.title_area,
