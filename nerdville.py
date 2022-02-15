@@ -3,6 +3,7 @@
 
 from os import makedirs
 from os.path import join, expanduser, exists
+import click
 
 from rich._emoji_codes import EMOJI
 
@@ -26,6 +27,10 @@ from classes.god import God
 
 
 class NerdVille(App):
+
+    def __init__(self, *args, dev_mode, **kwargs):
+        self.dev_mode = dev_mode
+        super().__init__(*args, **kwargs)
 
     async def on_load(self, event: events.Load) -> None:
         # Game Shortcuts
@@ -56,6 +61,7 @@ class NerdVille(App):
 
     def action_refresh_map(self) -> None:
         self.ville_area.render()
+        self.log_area.update(f'Dev Mode {self.dev_mode}')
         self.log_area.update('[MAP] Refresh. Can you feel the wind?')
 
     def action_switch_element_style(self) -> None:
@@ -297,6 +303,14 @@ class NerdVille(App):
             getattr(self, data['menu_function'])(data['menu_function_data'])
 
 
-NerdVille.run(
-    title="NerdVille",
+@click.command()
+@click.option('--dev', is_flag=True)
+def start(dev):
+    NerdVille.run(
+        title="NerdVille",
+        dev_mode=dev,
     )
+
+
+if __name__ == '__main__':
+    start()
