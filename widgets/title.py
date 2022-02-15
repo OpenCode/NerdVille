@@ -48,8 +48,9 @@ class Title(Widget):
             resources_info.append(
                 f"{resource.symbol} [bold]{resource.amount}[/bold]"
                 )
+        dev_mode = " [bold]DEV[/bold]" if active_app.get().dev_mode else ""
         return Panel(
             " | ".join(resources_info),
-            title=f"NerdVille {VERSION}-b{BUILD}",
+            title=f"NerdVille {VERSION}-b{BUILD}{dev_mode}",
             subtitle=" ".join(time_info)
             )
