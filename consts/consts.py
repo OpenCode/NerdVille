@@ -2,7 +2,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
 VERSION = '0.1.0'
-BUILD = 1
+BUILD = 2
 
 
 COLS_NUMBER = 20
