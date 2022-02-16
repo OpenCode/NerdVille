@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [0.2.0+3] - 2022-02-16
+
+### Added
+
+- Resources can consume other resources
+- `free_worker` resource
+- `house` produce `free_worker` on building, too
+- Building need `free_worker` to be builded
+- When demolish a building, recovery workers and/or resources
+
+### Fixed
+
+- Building consume cost resources in any case
+
 ## [0.1.0+2] - 2022-02-15
 
 ### Added

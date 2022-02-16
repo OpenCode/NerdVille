@@ -52,18 +52,6 @@ class Building:
 
     def build(self, building, row, col):
         element = Element().get(building)
-        # Check resources used for the build
-        insufficent_resources = []
-        for resource_name, cost in element.cost.items():
-            resource = Resource().get(resource_name)
-            if resource.amount < cost:
-                insufficent_resources.append(resource_name)
-            else:
-                resource.decrement(cost)
-        if insufficent_resources:
-            self._app.get().log_area.update(
-                f"Insufficent resources: {', '.join(insufficent_resources)}")
-            return None
         # Check building constraints
         game_map = self._app.get().map
         if element.building_constraints:
@@ -117,7 +105,21 @@ class Building:
         if not can_build:
             self._app.get().log_area.update(f"Constraints not respected")
             return None
+        # Check resources used for the build
+        insufficent_resources = []
+        for resource_name, cost in element.cost.items():
+            resource = Resource().get(resource_name)
+            if resource.amount < cost:
+                insufficent_resources.append(resource_name)
+        if insufficent_resources:
+            self._app.get().log_area.update(
+                f"Insufficent resources: {', '.join(insufficent_resources)}")
+            return None
         building_id = self._build(row, col, building)
+        # Decrement resources for build
+        for resource_name, cost in element.cost.items():
+            resource = Resource().get(resource_name)
+            resource.decrement(cost)
         # Generate resources on buld
         if element.production_on_build:
             for resource_name, amount in element.production_on_build.items():
@@ -156,6 +158,18 @@ class Building:
         self._db.connection.commit()
         return self.get(building_id)
 
+    def demolish(self):
+        self._db.cursor.execute(
+            "DELETE FROM building WHERE id = :id",
+            {'id': self.id}
+            )
+        if self.element.recovery_on_demolish:
+            for resource_name in self.element.recovery_on_demolish.keys():
+                resource = Resource().get(resource_name)
+                increment = self.element.recovery_on_demolish[resource_name]
+                resource.increment(increment)
+        self._db.connection.commit()
+
     def produce(self):
         if self.element.production:
             for resource_name in self.element.production.keys():
@@ -170,3 +184,18 @@ class Building:
                         resource.increment(
                             increment_resource.amount * 
                             increment[increment_resource_name])
+
+    def consume(self):
+        if self.element.consumption:
+            for resource_name in self.element.consumption.keys():
+                resource = Resource().get(resource_name)
+                decrement = self.element.consumption[resource_name]
+                if isinstance(decrement, int):
+                    resource.decrement(decrement)
+                else:
+                    for decrement_resource_name in decrement.keys():
+                        decrement_resource = Resource().get(
+                            decrement_resource_name)
+                        resource.decrement(
+                            decrement_resource.amount * 
+                            decrement[decrement_resource_name])

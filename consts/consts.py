@@ -1,8 +1,8 @@
 # Copyright 2022-TODAY Francesco Apruzzese <cescoap@gmail.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
-VERSION = '0.1.0'
-BUILD = 2
+VERSION = '0.2.0'
+BUILD = 3
 
 
 COLS_NUMBER = 20
@@ -22,8 +22,12 @@ CHARACTERS = {
 
 RESOURCES = {
     'population': {
-        "amount": 0,
+        "amount": 2,
         "symbol": ":bar_chart:",
+        },
+    'free_worker': {
+        "amount": 2,
+        "symbol": ":construction_worker:",
         },
     'gold': {
         "amount": 100,
@@ -92,14 +96,16 @@ BUILDINGS = {
         "symbol": "[bold]X[/bold]",
         "emoji": ":house:",
         "cost": {"gold": 10},
-        "production_on_build": {"population": 2},
+        "production_on_build": {"population": 2, "free_worker": 2},
+        "consumption": {"fish": 2},
         },
     'hospital': {
         "name": "Hospital",
         "symbol": "[bold]H[/bold]",
         "emoji": ":hospital:",
-        "cost": {"gold": 100},
+        "cost": {"gold": 100, "free_worker": 10},
         "production": {"health": 1},
+        "recovery_on_demolish": {"free_worker": 10},
         },
     "bridge": {
         "name": "Bridge",
@@ -110,38 +116,43 @@ BUILDINGS = {
         "name": "Farm",
         "symbol": "[bold yellow]#[/bold yellow]",
         "emoji": ":ear_of_rice:",
-        "cost": {"gold": 30, "wood": 100},
+        "cost": {"gold": 30, "wood": 100, "free_worker": 5},
         "production": {"hay": 1},
+        "recovery_on_demolish": {"free_worker": 5},
         },
     "lumberjack": {
         "name": "Lumberjack",
         "symbol": "[bold green]T[/bold green]",
         "emoji": ":axe:",
-        "cost": {"gold": 30},
+        "cost": {"gold": 30, "free_worker": 1},
         "production": {"wood": 1},
-        "building_constraints": {"build-on": 'environments-tree'}
+        "building_constraints": {"build-on": 'environments-tree'},
+        "recovery_on_demolish": {"free_worker": 1},
         },
     "fisherman": {
         "name": "Fisherman",
         "symbol": "[bold blue]F[/bold blue]",
         "emoji": ":fishing_pole:",
-        "cost": {"gold": 30, "wood": 5},
+        "cost": {"gold": 30, "wood": 5, "free_worker": 1},
         "production": {"fish": 3},
-        "building_constraints": {"side-any": 'environments-sea'}
+        "building_constraints": {"side-any": 'environments-sea'},
+        "recovery_on_demolish": {"free_worker": 1},
         },
     "tavern": {
         "name": "Tavern",
         "symbol": "[bold]U[/bold]",
         "emoji": ":beers:",
-        "cost": {"gold": 100, "wood": 200},
+        "cost": {"gold": 100, "wood": 200, "free_worker": 3},
         "production": {"happiness": 1},
+        "recovery_on_demolish": {"free_worker": 3},
         },
     "church": {
         "name": "Church",
         "symbol": "[bold]+[/bold]",
         "emoji": ":church:",
-        "cost": {"gold": 1000, "wood": 2000},
+        "cost": {"gold": 1000, "wood": 2000, "free_worker": 2},
         "production": {"spirituality": 1},
+        "recovery_on_demolish": {"free_worker": 2},
         },
 }
 
@@ -180,6 +191,17 @@ Elements structure
         [dict, default None]
         Resources created by the building at the build moment.
         F.E. {"gold": 1, "population": 2}
+    "consumption" ->
+        [dict, default None]
+        Resources consumed by the building on every loop.
+        It can be an integer to decrement a value directly
+            F.E. {"wood": 20, "happiness": 1}
+        or can be a dict to decrement a value based on other resources
+            F.E. {"gold": {"population": 2}}
+                 -> 2 gold will be consumed for every population
+                 {"gold": {"population": 2, "wood": 1}}
+                 -> 2 gold will be consumed for every population and 1
+                    for every wood
     "block" ->
         [boolean, default False]
         If True, characters can't pass through it

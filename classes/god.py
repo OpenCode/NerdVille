@@ -28,3 +28,4 @@ class God:
         buildings = Building().get_all()
         for building in buildings:
             building.produce()
+            building.consume()
