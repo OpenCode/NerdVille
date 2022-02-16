@@ -22,11 +22,11 @@ CHARACTERS = {
 
 RESOURCES = {
     'population': {
-        "amount": 0,
+        "amount": 2,
         "symbol": ":bar_chart:",
         },
     'free_worker': {
-        "amount": 0,
+        "amount": 2,
         "symbol": ":construction_worker:",
         },
     'gold': {
@@ -103,7 +103,7 @@ BUILDINGS = {
         "name": "Hospital",
         "symbol": "[bold]H[/bold]",
         "emoji": ":hospital:",
-        "cost": {"gold": 100},
+        "cost": {"gold": 100, "free_worker": 10},
         "production": {"health": 1},
         },
     "bridge": {
@@ -115,14 +115,14 @@ BUILDINGS = {
         "name": "Farm",
         "symbol": "[bold yellow]#[/bold yellow]",
         "emoji": ":ear_of_rice:",
-        "cost": {"gold": 30, "wood": 100},
+        "cost": {"gold": 30, "wood": 100, "free_worker": 5},
         "production": {"hay": 1},
         },
     "lumberjack": {
         "name": "Lumberjack",
         "symbol": "[bold green]T[/bold green]",
         "emoji": ":axe:",
-        "cost": {"gold": 30},
+        "cost": {"gold": 30, "free_worker": 1},
         "production": {"wood": 1},
         "building_constraints": {"build-on": 'environments-tree'}
         },
@@ -130,7 +130,7 @@ BUILDINGS = {
         "name": "Fisherman",
         "symbol": "[bold blue]F[/bold blue]",
         "emoji": ":fishing_pole:",
-        "cost": {"gold": 30, "wood": 5},
+        "cost": {"gold": 30, "wood": 5, "free_worker": 1},
         "production": {"fish": 3},
         "building_constraints": {"side-any": 'environments-sea'}
         },
@@ -138,14 +138,14 @@ BUILDINGS = {
         "name": "Tavern",
         "symbol": "[bold]U[/bold]",
         "emoji": ":beers:",
-        "cost": {"gold": 100, "wood": 200},
+        "cost": {"gold": 100, "wood": 200, "free_worker": 3},
         "production": {"happiness": 1},
         },
     "church": {
         "name": "Church",
         "symbol": "[bold]+[/bold]",
         "emoji": ":church:",
-        "cost": {"gold": 1000, "wood": 2000},
+        "cost": {"gold": 1000, "wood": 2000, "free_worker": 2},
         "production": {"spirituality": 1},
         },
 }
