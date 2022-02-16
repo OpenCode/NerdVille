@@ -105,6 +105,7 @@ class Db:
             "production_on_build TEXT, "
             "building_constraints TEXT, "
             "consumption TEXT, "
+            "recovery_on_demolish TEXT, "
             "block INTEGER, "
             "symbol TEXT NOT NULL UNIQUE, "
             "emoji TEXT"
@@ -174,6 +175,8 @@ class Db:
                     element.get('building_constraints'))
                 consumption = self._from_dict_to_database(
                     element.get('consumption'))
+                recovery_on_demolish = self._from_dict_to_database(
+                    element.get('recovery_on_demolish'))
                 self.cursor.execute(
                     "INSERT OR IGNORE INTO element ("
                     "code, category, name, "
@@ -181,6 +184,7 @@ class Db:
                     "production, production_on_build, "
                     "building_constraints, "
                     "consumption, "
+                    "recovery_on_demolish, "
                     "symbol, emoji, block"
                     ") VALUES ("
                     f"'{element_type}-{element_name}', "
@@ -191,6 +195,7 @@ class Db:
                     f"'{production_on_build}', "
                     f"'{building_constraints}', "
                     f"'{consumption}', "
+                    f"'{recovery_on_demolish}', "
                     f"'{element['symbol']}', "
                     f"'{element.get('emoji', '')}', "
                     f"{self._convert_in_boolean(element.get('block', False))}"

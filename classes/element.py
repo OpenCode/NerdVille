@@ -16,6 +16,7 @@ class Element:
     production_on_build = None
     building_constraints = None
     consumption = None
+    recovery_on_demolish = None
     _app = None
     _db = None
 
@@ -40,6 +41,7 @@ class Element:
         self.production_on_build = data['production_on_build']
         self.building_constraints = data['building_constraints']
         self.consumption = data['consumption']
+        self.recovery_on_demolish = data['recovery_on_demolish']
         return self
 
     def _get_raw_data(self):
@@ -60,6 +62,7 @@ class Element:
                           'production', 'production_on_build',
                           'building_constraints',
                           'consumption',
+                          'recovery_on_demolish',
                           ):
                 structured_data[data] = self._db._from_database_to_dict(
                     raw_data[data])

@@ -105,6 +105,7 @@ BUILDINGS = {
         "emoji": ":hospital:",
         "cost": {"gold": 100, "free_worker": 10},
         "production": {"health": 1},
+        "recovery_on_demolish": {"free_worker": 10},
         },
     "bridge": {
         "name": "Bridge",
@@ -117,6 +118,7 @@ BUILDINGS = {
         "emoji": ":ear_of_rice:",
         "cost": {"gold": 30, "wood": 100, "free_worker": 5},
         "production": {"hay": 1},
+        "recovery_on_demolish": {"free_worker": 5},
         },
     "lumberjack": {
         "name": "Lumberjack",
@@ -124,7 +126,8 @@ BUILDINGS = {
         "emoji": ":axe:",
         "cost": {"gold": 30, "free_worker": 1},
         "production": {"wood": 1},
-        "building_constraints": {"build-on": 'environments-tree'}
+        "building_constraints": {"build-on": 'environments-tree'},
+        "recovery_on_demolish": {"free_worker": 1},
         },
     "fisherman": {
         "name": "Fisherman",
@@ -132,7 +135,8 @@ BUILDINGS = {
         "emoji": ":fishing_pole:",
         "cost": {"gold": 30, "wood": 5, "free_worker": 1},
         "production": {"fish": 3},
-        "building_constraints": {"side-any": 'environments-sea'}
+        "building_constraints": {"side-any": 'environments-sea'},
+        "recovery_on_demolish": {"free_worker": 1},
         },
     "tavern": {
         "name": "Tavern",
@@ -140,6 +144,7 @@ BUILDINGS = {
         "emoji": ":beers:",
         "cost": {"gold": 100, "wood": 200, "free_worker": 3},
         "production": {"happiness": 1},
+        "recovery_on_demolish": {"free_worker": 3},
         },
     "church": {
         "name": "Church",
@@ -147,6 +152,7 @@ BUILDINGS = {
         "emoji": ":church:",
         "cost": {"gold": 1000, "wood": 2000, "free_worker": 2},
         "production": {"spirituality": 1},
+        "recovery_on_demolish": {"free_worker": 2},
         },
 }
 

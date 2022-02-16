@@ -158,6 +158,18 @@ class Building:
         self._db.connection.commit()
         return self.get(building_id)
 
+    def demolish(self):
+        self._db.cursor.execute(
+            "DELETE FROM building WHERE id = :id",
+            {'id': self.id}
+            )
+        if self.element.recovery_on_demolish:
+            for resource_name in self.element.recovery_on_demolish.keys():
+                resource = Resource().get(resource_name)
+                increment = self.element.recovery_on_demolish[resource_name]
+                resource.increment(increment)
+        self._db.connection.commit()
+
     def produce(self):
         if self.element.production:
             for resource_name in self.element.production.keys():
