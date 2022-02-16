@@ -1,8 +1,8 @@
 # Copyright 2022-TODAY Francesco Apruzzese <cescoap@gmail.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
-VERSION = '0.1.0'
-BUILD = 2
+VERSION = '0.2.0'
+BUILD = 3
 
 
 COLS_NUMBER = 20
@@ -181,6 +181,17 @@ Elements structure
         [dict, default None]
         Resources created by the building at the build moment.
         F.E. {"gold": 1, "population": 2}
+    "consumption" ->
+        [dict, default None]
+        Resources consumed by the building on every loop.
+        It can be an integer to decrement a value directly
+            F.E. {"wood": 20, "happiness": 1}
+        or can be a dict to decrement a value based on other resources
+            F.E. {"gold": {"population": 2}}
+                 -> 2 gold will be consumed for every population
+                 {"gold": {"population": 2, "wood": 1}}
+                 -> 2 gold will be consumed for every population and 1
+                    for every wood
     "block" ->
         [boolean, default False]
         If True, characters can't pass through it
