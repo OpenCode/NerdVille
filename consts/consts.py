@@ -25,6 +25,10 @@ RESOURCES = {
         "amount": 0,
         "symbol": ":bar_chart:",
         },
+    'free_worker': {
+        "amount": 0,
+        "symbol": ":construction_worker:",
+        },
     'gold': {
         "amount": 100,
         "symbol": ":money_bag:",
@@ -92,7 +96,7 @@ BUILDINGS = {
         "symbol": "[bold]X[/bold]",
         "emoji": ":house:",
         "cost": {"gold": 10},
-        "production_on_build": {"population": 2},
+        "production_on_build": {"population": 2, "free_worker": 2},
         "consumption": {"fish": 2},
         },
     'hospital': {
