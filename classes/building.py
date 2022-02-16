@@ -52,18 +52,6 @@ class Building:
 
     def build(self, building, row, col):
         element = Element().get(building)
-        # Check resources used for the build
-        insufficent_resources = []
-        for resource_name, cost in element.cost.items():
-            resource = Resource().get(resource_name)
-            if resource.amount < cost:
-                insufficent_resources.append(resource_name)
-            else:
-                resource.decrement(cost)
-        if insufficent_resources:
-            self._app.get().log_area.update(
-                f"Insufficent resources: {', '.join(insufficent_resources)}")
-            return None
         # Check building constraints
         game_map = self._app.get().map
         if element.building_constraints:
@@ -117,7 +105,21 @@ class Building:
         if not can_build:
             self._app.get().log_area.update(f"Constraints not respected")
             return None
+        # Check resources used for the build
+        insufficent_resources = []
+        for resource_name, cost in element.cost.items():
+            resource = Resource().get(resource_name)
+            if resource.amount < cost:
+                insufficent_resources.append(resource_name)
+        if insufficent_resources:
+            self._app.get().log_area.update(
+                f"Insufficent resources: {', '.join(insufficent_resources)}")
+            return None
         building_id = self._build(row, col, building)
+        # Decrement resources for build
+        for resource_name, cost in element.cost.items():
+            resource = Resource().get(resource_name)
+            resource.decrement(cost)
         # Generate resources on buld
         if element.production_on_build:
             for resource_name, amount in element.production_on_build.items():
