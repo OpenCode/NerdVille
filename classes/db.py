@@ -1,16 +1,13 @@
 # Copyright 2022-TODAY Francesco Apruzzese <cescoap@gmail.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl).
 
-from random import randint
 from json import dumps, loads
 import sqlite3
 from os.path import join
 
 from consts.consts import \
     VERSION, BUILD, \
-    ELEMENTS, RESOURCES, \
-    ROWS_LIMIT, ROWS_NUMBER, \
-    COLS_LIMIT, COLS_NUMBER
+    ELEMENTS, RESOURCES
 
 
 class Db:
