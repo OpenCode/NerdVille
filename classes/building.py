@@ -172,3 +172,18 @@ class Building:
                         resource.increment(
                             increment_resource.amount * 
                             increment[increment_resource_name])
+
+    def consume(self):
+        if self.element.consumption:
+            for resource_name in self.element.consumption.keys():
+                resource = Resource().get(resource_name)
+                decrement = self.element.consumption[resource_name]
+                if isinstance(decrement, int):
+                    resource.decrement(decrement)
+                else:
+                    for decrement_resource_name in decrement.keys():
+                        decrement_resource = Resource().get(
+                            decrement_resource_name)
+                        resource.decrement(
+                            decrement_resource.amount * 
+                            decrement[decrement_resource_name])

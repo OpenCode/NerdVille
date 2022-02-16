@@ -42,6 +42,13 @@ class Info(Widget):
                     building_values.append(
                         f"  {production.title()}: "
                         f"{building.element.production[production]}")
+            # Show building consumption
+            if building.element.consumption:
+                building_values.append("[bold]CONSUMPTION: [/bold]")
+                for consumption in building.element.consumption:
+                    building_values.append(
+                        f"  {consumption.title()}: "
+                        f"{building.element.consumption[consumption]}")
             # Show building constraints
             if building.element.building_constraints:
                 building_values.append("[bold]BUILDING CONSTRAITS: [/bold]")

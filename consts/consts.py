@@ -93,6 +93,7 @@ BUILDINGS = {
         "emoji": ":house:",
         "cost": {"gold": 10},
         "production_on_build": {"population": 2},
+        "consumption": {"fish": 2},
         },
     'hospital': {
         "name": "Hospital",
