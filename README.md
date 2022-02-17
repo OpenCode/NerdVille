@@ -4,7 +4,7 @@ Create your village in your console
 
 ![Emoji Mode](icons/128.png)
 
-![version](https://img.shields.io/badge/Version-0.2.0+dev-informational?style=for-the-badge)
+![version](https://img.shields.io/badge/Version-0.2.1+dev-informational?style=for-the-badge)
 
 [![wiki](https://img.shields.io/badge/Documentation-Visit_the_Wiki-informational?style=for-the-badge)](https://github.com/OpenCode/NerdVille/wiki)
 

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [0.2.1+4] - 2022-02-17
+
+### Added
+
+- Build menu, show building information in info area. Use button to confim build.
+
+
 ## [0.2.0+3] - 2022-02-16
 
 ### Added
