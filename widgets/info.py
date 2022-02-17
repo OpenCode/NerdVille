@@ -6,6 +6,8 @@ from textual._context import active_app
 from textual.reactive import Reactive
 from textual.widget import Widget
 
+from classes.element import Element
+
 
 class Info(Widget):
 
@@ -14,50 +16,62 @@ class Info(Widget):
     def render(self) -> Panel:
         return Panel(str(self.value))
 
-    def update(self) -> None:
+    def king_position_info(self) -> None:
         king = active_app.get().king
         game_map = active_app.get().map
         position = game_map.position(king.row, king.col)
-        element = position.element
+        building = position.building
+        if building:
+            values = [
+                f"[bold]{building.element.name}[/bold]",
+                "",
+                ]
+        else:
+            values = [
+                f"[bold]{position.element.name}[/bold]",
+                "",
+                ]
+        if building:
+            # Show production
+            if building.element.production:
+                values.append("[bold]PRODUCTION: [/bold]")
+                for production in building.element.production:
+                    values.append(
+                        f"  {production.title()}: "
+                        f"{building.element.production[production]}")
+            # Show consumption
+            if building.element.consumption:
+                values.append("[bold]CONSUMPTION: [/bold]")
+                for consumption in building.element.consumption:
+                    values.append(
+                        f"  {consumption.title()}: "
+                        f"{building.element.consumption[consumption]}")
+        self.value = "\n".join(values)
+
+    def element_info(self, element):
+        element = Element().get(element)
         values = [
             f"[bold]{element.name}[/bold]",
             "",
             ]
-        building = position.building
-        building_values = []
-        if building:
-            building_values = [
-                f"[bold]LEVEL: [/bold]{building.level}",
-            ]
-            # Show building cost
-            if building.element.cost:
-                building_values.append("[bold]COST: [/bold]")
-                for cost in building.element.cost:
-                    building_values.append(
-                        f"  {cost.title()}: {building.element.cost[cost]}")
-            # Show building production
-            if building.element.production:
-                building_values.append("[bold]PRODUCTION: [/bold]")
-                for production in building.element.production:
-                    building_values.append(
-                        f"  {production.title()}: "
-                        f"{building.element.production[production]}")
-            # Show building consumption
-            if building.element.consumption:
-                building_values.append("[bold]CONSUMPTION: [/bold]")
-                for consumption in building.element.consumption:
-                    building_values.append(
-                        f"  {consumption.title()}: "
-                        f"{building.element.consumption[consumption]}")
-            # Show building constraints
-            if building.element.building_constraints:
-                building_values.append("[bold]BUILDING CONSTRAITS: [/bold]")
-                for constrain in building.element.building_constraints:
-                    constraint_data = constrain.split('-')
-                    contraint_val = \
-                        building.element.building_constraints[constrain]
-                    building_values.append(
-                        f"  {constraint_data[0].title()} "
-                        f"{constraint_data[1].title()}: "
-                        f"{contraint_val.split('-')[1].title()}")
-        self.value = "\n".join(values + building_values)
+        # Show cost
+        if element.cost:
+            values.append("[bold]COST: [/bold]")
+            for cost in element.cost:
+                values.append(
+                    f"  {cost.title()}: {element.cost[cost]}")
+        # Show production
+        if element.production:
+            values.append("[bold]PRODUCTION: [/bold]")
+            for production in element.production:
+                values.append(
+                    f"  {production.title()}: "
+                    f"{element.production[production]}")
+        # Show consumption
+        if element.consumption:
+            values.append("[bold]CONSUMPTION: [/bold]")
+            for consumption in element.consumption:
+                values.append(
+                    f"  {consumption.title()}: "
+                    f"{element.consumption[consumption]}")
+        self.value = "\n".join(values)

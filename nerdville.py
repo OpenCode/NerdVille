@@ -6,10 +6,12 @@ from os.path import join, expanduser, exists
 import click
 
 from rich._emoji_codes import EMOJI
+from rich.panel import Panel
 
 from textual import events
 from textual.app import App
 from textual.widgets import ScrollView, TreeControl, TreeClick
+from textual.widgets import Button, ButtonPressed
 from textual.keys import Keys
 
 from widgets.info import Info
@@ -34,6 +36,7 @@ class NerdVille(App):
 
     def __init__(self, *args, dev_mode, **kwargs):
         self.dev_mode = dev_mode
+        self.pending_event = None
         super().__init__(*args, **kwargs)
 
     async def on_load(self, event: events.Load) -> None:
@@ -44,6 +47,8 @@ class NerdVille(App):
         await self.bind("p", "pause", "Pause")
         await self.bind(Keys.ControlG, "switch_element_style",
                         "Switch Element Style")
+        await self.bind(Keys.Escape, "undo_pending_event",
+                        "Cancel pending event")
         # Map Shortcuts
         await self.bind(Keys.ControlR, "refresh_map", "Refresh")
         # King Shortcuts
@@ -59,7 +64,7 @@ class NerdVille(App):
         await self.bind("0", "move_to_origin", "Move to Origin")
 
     def show_info(self) -> None:
-        self.info_area.update()
+        self.info_area.king_position_info()
 
     # Binding Functions for Keyboard
 
@@ -78,6 +83,10 @@ class NerdVille(App):
         self.db.set_game_value("element_style", style)
         self.ville_area.element_style = style
         self.log_area.update(f"[GRAPH] Switched to {style} mode")
+
+    def action_undo_pending_event(self) -> None:
+        self.pending_event = None
+        self.button_area.visible = False
 
     def action_pause(self) -> None:
         if self.hourglass.speed == 0:
@@ -132,7 +141,7 @@ class NerdVille(App):
 
     # Menu called function
 
-    def menu_build(self, data) -> None:
+    def build(self, data) -> None:
         building = data['building']
         response = self.map.build(building=building)
         message = ''
@@ -144,6 +153,12 @@ class NerdVille(App):
             self.log_area.update(
                 f'{message} in {self.ville_area.king_position}')
             self.show_info()
+
+    def menu_build(self, data) -> None:
+        self.info_area.element_info(element=data['building'])
+        self.button_area.label = 'Confirm Build'
+        self.button_area.visible = True
+        self.pending_event = {'function': 'build', 'data': data}
 
     def menu_demolish(self, data=None) -> None:
         response = self.map.demolish()
@@ -224,12 +239,19 @@ class NerdVille(App):
             menu_area="left,middle-start|bottom-end",
             game_area="center,middle",
             info_area="right,middle",
-            log_area="center-start|right-end,bottom",
+            log_area="center,bottom",
+            button_area="right,bottom"
         )
         # Define widget to compose the window
         self.title_area = Title()
         self.log_area = Logs()
         self.info_area = Info()
+        self.button_area = Button(
+            "",
+            name="execute_pending_event",
+            style="white on rgb(51,51,51)",
+            )
+        self.button_area.visible = False
         # Define the Menu
         menu = TreeControl("Menu", {})
         await menu.add(
@@ -323,6 +345,7 @@ class NerdVille(App):
             game_area=self.body,
             info_area=self.info_area,
             log_area=self.log_area,
+            button_area=self.button_area,
         )
         # Define classes
         self.castle = Castle()
@@ -346,6 +369,19 @@ class NerdVille(App):
         data = message.node.data
         if data:
             getattr(self, data['menu_function'])(data['menu_function_data'])
+
+    def handle_button_pressed(self, message: ButtonPressed) -> None:
+        """A message sent by the button widget"""
+
+        assert isinstance(message.sender, Button)
+        button = message.sender
+        if button.name == 'execute_pending_event':
+            if self.pending_event:
+                getattr(self,
+                        self.pending_event['function'])\
+                    (self.pending_event['data'])
+            self.pending_event = None
+            self.button_area.visible = False
 
 
 @click.command()
